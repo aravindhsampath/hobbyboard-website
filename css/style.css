@@ -83,6 +83,7 @@
   --btn-primary-border: rgba(211,154,71,0.4);
   --btn-primary-border-hover: rgba(211,154,71,0.45);
   --btn-primary-text: var(--text);
+  --btn-primary-shadow: none;
 
   --radius-lg: 12px;
   --radius-md: 8px;
@@ -118,11 +119,12 @@
 
   --btn-bg: #FFFFFF;
   --btn-border: #DCDbd8;
-  /* Light mode: Solid Black Button */
+  /* Light mode: Solid Black Button with depth */
   --btn-primary-bg: #18181b; 
   --btn-primary-border: #18181b;
   --btn-primary-border-hover: #000;
   --btn-primary-text: #FFFFFF;
+  --btn-primary-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 * { box-sizing: border-box; }
@@ -338,8 +340,9 @@ button, input, select, textarea {
 
 .hero-title {
   font-size: 64px;
-  line-height: 1.1;
+  line-height: 1.25; /* Increased line-height to prevent clipping */
   margin: 0 0 16px;
+  padding-bottom: 8px; /* Added padding for descenders */
   font-style: italic;
   background: linear-gradient(to right, var(--text), var(--text-muted));
   -webkit-background-clip: text;
@@ -393,6 +396,7 @@ button, input, select, textarea {
   background: var(--btn-primary-bg);
   border-color: var(--btn-primary-border);
   color: var(--btn-primary-text, var(--text)); /* Use text var with fallback */
+  box-shadow: var(--btn-primary-shadow, none); /* Add shadow var */
 }
 
 .btn-primary:hover {
@@ -631,6 +635,8 @@ button, input, select, textarea {
   font-size: 48px;
   margin: 0 0 16px;
   color: var(--text);
+  letter-spacing: -0.01em; /* Tighten slightly, but more space than default */
+  padding-bottom: 4px;
 }
 
 .showcase-header p {
