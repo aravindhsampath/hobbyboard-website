@@ -288,7 +288,7 @@ button, input, select, textarea {
 /* Grid */
 .content { 
   padding: 24px; 
-  padding-top: 110px; /* Offset for fixed header */
+  padding-top: 80px; /* Reduced from 110px */
   max-width: 1200px; 
   margin: 0 auto; 
   min-height: 100vh; 
@@ -300,8 +300,8 @@ button, input, select, textarea {
   align-items: center;
   justify-content: space-between;
   gap: 60px;
-  min-height: calc(100vh - 140px);
-  padding: 40px 0;
+  min-height: calc(100vh - 120px); /* Adjusted from 140px */
+  padding: 20px 0; /* Reduced from 40px */
 }
 
 .hero-content {
