@@ -107,8 +107,8 @@
   --accent-cursive: #C2410C; /* Burnt Orange for Light Mode */
   
   /* Container Variables (Light Mode) */
-  --container-bg: rgba(255, 255, 255, 0.6); /* Soft White Glass */
-  --container-border: rgba(0, 0, 0, 0.05);
+  --container-bg: rgba(255, 255, 255, 0.2); /* Much subtler blend */
+  --container-border: transparent; /* Remove hard line */
   
   /* Background Gradients (Light - Adapted) */
   --bg-gradient-1: rgba(111,179,145,0.08); /* Greenish - subtler */
@@ -635,7 +635,7 @@ button, input, select, textarea {
   font-size: 48px;
   margin: 0 0 16px;
   color: var(--text);
-  letter-spacing: -0.01em; /* Tighten slightly, but more space than default */
+  letter-spacing: 0.03em; /* Increased for legibility */
   padding-bottom: 4px;
 }
 
@@ -804,6 +804,7 @@ button, input, select, textarea {
   font-size: 40px;
   margin: 0 0 16px;
   color: var(--text);
+  letter-spacing: 0.03em;
 }
 
 .features-grid {
