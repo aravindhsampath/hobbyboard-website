@@ -26,6 +26,20 @@
   font-style: italic;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora/Lora-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora/Lora-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
 
 :root {
   /* Semantic Color System (Deep Obsidian Ink - Default Dark) */
@@ -288,7 +302,7 @@ button, input, select, textarea {
 /* Grid */
 .content { 
   padding: 24px; 
-  padding-top: 80px; /* Reduced from 110px */
+  padding-top: 80px;
   max-width: 1200px; 
   margin: 0 auto; 
   min-height: 100vh; 
@@ -300,8 +314,8 @@ button, input, select, textarea {
   align-items: center;
   justify-content: space-between;
   gap: 60px;
-  min-height: calc(100vh - 120px); /* Adjusted from 140px */
-  padding: 20px 0; /* Reduced from 40px */
+  min-height: calc(100vh - 120px);
+  padding: 20px 0;
 }
 
 .hero-content {
@@ -321,8 +335,8 @@ button, input, select, textarea {
 }
 
 .hero-cursive {
-  font-family: "Apple Chancery", "Bradley Hand", "Brush Script MT", cursive;
-  font-style: normal;
+  font-family: 'Lora', serif;
+  font-style: italic;
   font-size: 24px;
   color: var(--accent-2);
   margin: 0 0 32px;
@@ -343,7 +357,7 @@ button, input, select, textarea {
   align-items: center;
 }
 
-/* Base Button Style (matches .button from source) */
+/* Base Button Style */
 .btn-primary, .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -361,7 +375,7 @@ button, input, select, textarea {
   width: fit-content;
 }
 
-/* Primary Button Style (matches .button.primary from source) */
+/* Primary Button Style */
 .btn-primary {
   background: var(--btn-primary-bg);
   border-color: var(--btn-primary-border);
@@ -372,13 +386,13 @@ button, input, select, textarea {
   border-color: var(--btn-primary-border-hover);
 }
 
-/* Secondary Button Style (matches default .button from source) */
+/* Secondary Button Style */
 .btn-secondary:hover {
   transform: translateY(-1px);
   border-color: var(--btn-primary-border-hover);
 }
 
-/* Sizing (matches source padding) */
+/* Sizing */
 .btn-lg {
   padding: 10px 24px;
   font-size: 14px;
@@ -581,19 +595,21 @@ button, input, select, textarea {
 
 /* Tabbed Browser Showcase */
 .showcase {
-  padding: 40px 0; /* Reduced from 80px */
-  background: var(--bg-surface);
+  padding: 20px 0; /* Reduced from 40px */
 }
 
 .showcase .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 48px 24px; /* Added internal padding */
+  background: rgba(255, 255, 255, 0.02); /* Subtle glass bg */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+  border-radius: 24px; /* Smooth corners */
 }
 
 .showcase-header {
   text-align: center;
-  margin-bottom: 32px; /* Reduced from 48px */
+  margin-bottom: 32px;
 }
 
 .showcase-header h2 {
@@ -746,19 +762,21 @@ button, input, select, textarea {
 
 /* Feature Cards Section */
 .features {
-  padding: 80px 0;
-  background: var(--bg-app);
+  padding: 20px 0; /* Reduced from 80px */
 }
 
 .features .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 48px 24px; /* Added internal padding */
+  background: rgba(255, 255, 255, 0.02); /* Subtle glass bg */
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+  border-radius: 24px; /* Smooth corners */
 }
 
 .features-header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 48px; /* Increased from 32px */
 }
 
 .features-header h2 {
@@ -777,8 +795,8 @@ button, input, select, textarea {
 .feature-card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md); /* Smaller radius */
-  padding: 24px; /* Reduced padding */
+  border-radius: var(--radius-md);
+  padding: 24px;
   transition: border-color 0.2s ease;
   min-height: 160px;
   display: flex;
@@ -791,15 +809,15 @@ button, input, select, textarea {
 }
 
 .feature-card h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px; /* Reduced size */
+  font-family: 'Lora', serif; /* Lora font */
+  font-size: 18px;
   margin: 0;
   color: var(--text);
   font-weight: 600;
 }
 
 .feature-card p {
-  font-size: 14px; /* Reduced size */
+  font-size: 14px;
   color: var(--text-muted);
   line-height: 1.5;
   margin: 0;
