@@ -629,6 +629,8 @@ button, input, select, textarea {
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
+  position: relative; /* For pseudo-element */
+  overflow: hidden; /* Contain progress bar */
 }
 
 .browser-tab:hover {
@@ -641,6 +643,29 @@ button, input, select, textarea {
   color: var(--text);
   border-color: var(--accent-gold);
   box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Progress Bar for Auto-Play */
+.browser-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent-gold);
+  width: 0%;
+  /* Animate width to 100% over 4s (matching JS interval) */
+  animation: progress 4s linear forwards; 
+}
+
+/* Pause animation on hover */
+.browser-showcase:hover .browser-tab.active::after {
+  animation-play-state: paused;
+}
+
+@keyframes progress {
+  from { width: 0%; }
+  to { width: 100%; }
 }
 
 /* Browser Frame */
