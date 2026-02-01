@@ -758,7 +758,7 @@ button, input, select, textarea {
 
 .features-header {
   text-align: center;
-  margin-bottom: 64px;
+  margin-bottom: 48px;
 }
 
 .features-header h2 {
@@ -768,60 +768,39 @@ button, input, select, textarea {
   color: var(--text);
 }
 
-.features-header p {
-  font-size: 18px;
-  color: var(--text-muted);
-}
-
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
 }
 
 .feature-card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  border-radius: var(--radius-md); /* Smaller radius */
+  padding: 24px; /* Reduced padding */
+  transition: border-color 0.2s ease;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .feature-card:hover {
-  transform: translateY(-4px);
   border-color: var(--accent-gold);
-}
-
-.feature-icon {
-  margin-bottom: 20px;
-  color: var(--accent-2);
-}
-
-.feature-icon svg {
-  width: 40px;
-  height: 40px;
-  display: block;
 }
 
 .feature-card h3 {
   font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  margin: 0 0 12px;
+  font-size: 18px; /* Reduced size */
+  margin: 0;
   color: var(--text);
+  font-weight: 600;
 }
 
 .feature-card p {
-  font-size: 16px;
+  font-size: 14px; /* Reduced size */
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
-}
-
-.feature-card code {
-  background: var(--bg-surface-hover);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.9em;
-  color: var(--accent-gold);
 }
