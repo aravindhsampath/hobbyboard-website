@@ -14,6 +14,9 @@ const drawerBackdrop = document.getElementById('drawerBackdrop');
 const themeToggleMobile = document.getElementById('themeToggleMobile');
 const themeToggleText = document.getElementById('themeToggleText');
 
+const browserTabs = document.querySelectorAll('.browser-tab');
+const browserImages = document.querySelectorAll('.browser-img');
+
 // --- Initialization ---
 
 function init() {
@@ -47,6 +50,23 @@ function toggleDrawer() {
   }
 }
 
+function switchBrowserTab(e) {
+  const targetId = e.target.getAttribute('data-target');
+  
+  // Update Tabs
+  browserTabs.forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  
+  // Update Images
+  browserImages.forEach(img => {
+    if (img.id === targetId) {
+      img.classList.add('active');
+    } else {
+      img.classList.remove('active');
+    }
+  });
+}
+
 // --- Listeners ---
 
 function initListeners() {
@@ -59,6 +79,8 @@ function initListeners() {
   if (themeToggleMobile) themeToggleMobile.onclick = () => {
     toggleTheme();
   };
+
+  browserTabs.forEach(tab => tab.onclick = switchBrowserTab);
 }
 
 init();
