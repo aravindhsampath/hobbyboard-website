@@ -242,6 +242,49 @@ button, input, select, textarea {
   align-items: center;
 }
 
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 32px;
+  margin-left: 40px;
+}
+
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .nav-links.desktop-only {
+    display: none;
+  }
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+}
+
+.nav-item {
+  padding: 12px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+}
+
+
 /* Grid */
 .content { 
   padding: 24px; 
