@@ -743,3 +743,85 @@ button, input, select, textarea {
   opacity: 1;
   position: relative; /* Let the active one dictate height */
 }
+
+/* Feature Cards Section */
+.features {
+  padding: 80px 0;
+  background: var(--bg-app);
+}
+
+.features .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.features-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+.features-header p {
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.feature-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+}
+
+.feature-icon {
+  margin-bottom: 20px;
+  color: var(--accent-2);
+}
+
+.feature-icon svg {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.feature-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.feature-card p {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.feature-card code {
+  background: var(--bg-surface-hover);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+  color: var(--accent-gold);
+}
