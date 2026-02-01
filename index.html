@@ -30,7 +30,35 @@
           <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 14.2A7.6 7.6 0 0 1 9.8 3a8.9 8.9 0 1 0 11.2 11.2Z"/></svg>
         </button>
       </div>
+
+      <div class="mobile-controls">
+        <button id="menuToggle" class="icon-btn" title="Menu">
+          <svg viewBox="0 0 24 24" class="icon" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
     </header>
+
+    <div id="drawer" class="drawer hidden">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <h3>Menu</h3>
+          <button id="drawerClose" class="close-btn">&times;</button>
+        </div>
+        <div class="drawer-body">
+          <div class="setting-item">
+            <label>Appearance</label>
+            <button id="themeToggleMobile" class="btn-secondary mobile-theme-btn">
+              <div class="theme-icon-wrap">
+                <svg class="icon icon-sun" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM3 11h1a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2Zm17 0h1a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2ZM5.05 5.05a1 1 0 0 1 1.41 0l.7.7a1 1 0 1 1-1.41 1.41l-.7-.7a1 1 0 0 1 0-1.41Zm12.79 12.79a1 1 0 0 1 1.41 0l.7.7a1 1 0 1 1-1.41 1.41l-.7-.7a1 1 0 0 1 0-1.41ZM19.95 5.05a1 1 0 0 1 0 1.41l-.7.7a1 1 0 0 1-1.41-1.41l.7-.7a1 1 0 0 1 1.41 0ZM7.16 17.84a1 1 0 0 1 0 1.41l-.7.7a1 1 0 1 1-1.41-1.41l.7-.7a1 1 0 0 1 1.41 0Z"/></svg>
+                <svg class="icon icon-moon" viewBox="0 0 24 24"><path d="M21 14.2A7.6 7.6 0 0 1 9.8 3a8.9 8.9 0 1 0 11.2 11.2Z"/></svg>
+              </div>
+              <span id="themeToggleText">Dark Mode</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="drawerBackdrop" class="drawer-backdrop"></div>
+    </div>
 
     <main class="content">
       <section class="hero">
