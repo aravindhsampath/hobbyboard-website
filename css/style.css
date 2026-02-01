@@ -635,7 +635,7 @@ button, input, select, textarea {
   font-size: 48px;
   margin: 0 0 16px;
   color: var(--text);
-  letter-spacing: 0.03em; /* Increased for legibility */
+  letter-spacing: 0.04em; /* Increased for legibility */
   padding-bottom: 4px;
 }
 
@@ -804,7 +804,7 @@ button, input, select, textarea {
   font-size: 40px;
   margin: 0 0 16px;
   color: var(--text);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .features-grid {
