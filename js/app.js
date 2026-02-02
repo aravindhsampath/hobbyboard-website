@@ -28,6 +28,40 @@ function init() {
   loadSettings();
   initListeners();
   detectOS();
+  initDocs();
+}
+
+function initDocs() {
+  const headings = document.querySelectorAll('.docs-content section[id]');
+  const navLinks = document.querySelectorAll('.sidebar-links a');
+  
+  if (headings.length === 0) return;
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-100px 0px -70% 0px', // Active when section is near top
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Remove active class from all
+        navLinks.forEach(link => link.classList.remove('active'));
+        
+        // Add active class to corresponding link
+        const id = entry.target.getAttribute('id');
+        const activeLink = document.querySelector(`.sidebar-links a[href="#${id}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+    });
+  }, observerOptions);
+
+  headings.forEach(section => {
+    observer.observe(section);
+  });
 }
 
 function loadSettings() {
