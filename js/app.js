@@ -101,16 +101,24 @@ function stopAutoPlay() {
 // --- Install Logic ---
 
 function detectOS() {
-  const platform = navigator.platform.toLowerCase();
   const userAgent = navigator.userAgent.toLowerCase();
   let os = 'linux'; // Default
 
-  if (platform.includes('mac') || userAgent.includes('mac')) {
+  if (userAgent.includes('mac')) {
     os = 'mac';
-  } else if (platform.includes('win') || userAgent.includes('win')) {
+  } else if (userAgent.includes('win')) {
     os = 'windows';
   }
   
+  // Add detection badge
+  const detectedBtn = document.querySelector(`.os-btn[data-os="${os}"]`);
+  if (detectedBtn) {
+    const badge = document.createElement('span');
+    badge.className = 'detected-badge';
+    badge.textContent = 'Detected';
+    detectedBtn.appendChild(badge);
+  }
+
   switchOS(os);
 }
 

@@ -890,6 +890,31 @@ button, input, select, textarea {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.os-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+.os-btn.active .os-icon {
+  opacity: 1;
+}
+
+.detected-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--accent-soft);
+  color: var(--accent-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+  font-weight: 700;
 }
 
 .os-btn:hover {
