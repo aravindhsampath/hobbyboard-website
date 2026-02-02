@@ -67,12 +67,126 @@
       <div id="drawerBackdrop" class="drawer-backdrop"></div>
     </div>
 
-    <main class="content">
-      <div class="container" style="max-width: 800px; margin: 0 auto; padding-bottom: 80px;">
-        <h1 style="font-size: 48px; font-weight: 600; margin-bottom: 24px;">About HobbyBoard</h1>
-        <p style="font-size: 18px; color: var(--text-muted); line-height: 1.6;">
-          HobbyBoard was born out of a need to organize digital inspiration without relying on cloud services or losing data privacy.
-        </p>
+    <main class="content about-page">
+      <div class="container">
+        <section class="about-hero">
+          <h1 class="hero-title">Screenshots and "Right-Click > Save As" are a Lifestyle.</h1>
+          <p class="hero-cursive">The story behind HobbyBoard</p>
+        </section>
+
+        <section class="about-story section-spacing">
+          <div class="story-grid">
+            <div class="story-text">
+              <h2>Why HobbyBoard?</h2>
+              <p>I’m a hobbyist woodworker. I got tired of collecting inspiration in Apple Notes, Photos.app, or random folders, only to scroll hopelessly later trying to find <em>"that one image of those nice tapered table legs"</em> I knew I stashed somewhere a while ago.</p>
+              <p>HobbyBoard was built to make sense of all the collected inspiration without much effort and actually finding it again when you need it.</p>
+            </div>
+            <div class="story-visual">
+              <div class="glass-card">
+                <h3>Who is this for?</h3>
+                <ul class="simple-list">
+                  <li><strong>Woodworkers / Makers:</strong> "I saw a joinery technique once..."</li>
+                  <li><strong>Designers:</strong> "I need that specific shade of corporate blue..."</li>
+                  <li><strong>Hobbyists:</strong> "Anything that may be."</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-stack section-spacing">
+          <h2>The Stack</h2>
+          <div class="stack-grid">
+            <div class="stack-item">
+              <span class="stack-label">Backend</span>
+              <p>Rust (Axum, Tokio)</p>
+            </div>
+            <div class="stack-item">
+              <span class="stack-label">Frontend</span>
+              <p>HTML, CSS &amp; Vanilla JS</p>
+            </div>
+            <div class="stack-item">
+              <span class="stack-label">Database</span>
+              <p>SQLite (Metadata) + Qdrant (Vectors)</p>
+            </div>
+            <div class="stack-item">
+              <span class="stack-label">AI</span>
+              <p>fastembed-rs for local embedding, plus vision capable models.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-principles section-spacing">
+          <h2>Core Principles</h2>
+          <div class="principles-grid">
+            <div class="principle-card">
+              <h4>Self-hosting &amp; Privacy</h4>
+              <p>One binary, a database, and a local model. Your data doesn't leave your machine unless you explicitly tell it to.</p>
+            </div>
+            <div class="principle-card">
+              <h4>Minimal Resource Footprint</h4>
+              <p>There are enough Electron apps and bloated websites. HobbyBoard is built for speed and efficiency.</p>
+            </div>
+            <div class="principle-card">
+              <h4>2026 UI/UX</h4>
+              <p>Fast, responsive, and easy on the eyes. It works like it’s from the future, even on 2018 hardware.</p>
+            </div>
+            <div class="principle-card">
+              <h4>Clean Economy</h4>
+              <p>No Ads. No Subscriptions. No Targeting. Just your files, indexed by a robot.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-details section-spacing">
+          <h2>The Little Things (I Hope You Notice)</h2>
+          <div class="details-grid">
+            <div class="detail-item">
+              <strong>Dark &amp; Light Mode:</strong>
+              <p>It's not just #000 and #FFF. It's Warm Stone and Deep Obsidian Ink.</p>
+            </div>
+            <div class="detail-item">
+              <strong>The Logo:</strong>
+              <p>Symbolizes a masonry grid. It morphs on hover. Does it serve a function? No. Is it cool? Yes.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Translucency:</strong>
+              <p>That top bar blur? It floats over the board like frosted glass.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Modal UX:</strong>
+              <p>Click outside the image to close. It just works.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Drag &amp; Drop:</strong>
+              <p>Upload media like it's 2026. Rescan from the UI if you wish.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Manual Input:</strong>
+              <p>Auto tags are nice, but your manual tags and notes are weighed higher for search.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Native Share Sheet:</strong>
+              <p>Share a board/image using your OS's native tools.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Google Takeout-style Export:</strong>
+              <p>Download a ZIP of your original assets and metadata.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Logs:</strong>
+              <p>Something broke? Check the web UI logs directly.</p>
+            </div>
+            <div class="detail-item">
+              <strong>The Search Bar:</strong>
+              <p>It expands. It has a gradient. It was "Variant Z" and it was the right choice.</p>
+            </div>
+            <div class="detail-item">
+              <strong>Transactional Processing:</strong>
+              <p>Failures trigger automatic rollbacks to keep your database 100% consistent.</p>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
 

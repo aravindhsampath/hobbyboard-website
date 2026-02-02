@@ -1244,3 +1244,135 @@ button, input, select, textarea {
   /* Alternative Mobile TOC (if sidebar hidden) */
   /* Could be styled as details/summary here */
 }
+
+/* About Page Specific */
+.about-page {
+  padding-bottom: 100px;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 80px 0 40px;
+}
+
+.section-spacing {
+  margin-top: 100px;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.glass-card {
+  background: var(--container-bg);
+  border: 1px solid var(--container-border);
+  padding: 32px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.simple-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+
+.simple-list li {
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+.simple-list li strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Stack Grid */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.stack-item {
+  border-left: 1px solid var(--border);
+  padding-left: 20px;
+}
+
+.stack-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stack-item p {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text);
+}
+
+/* Principles Grid */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.principle-card h4 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+/* Details Grid */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.detail-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 24px;
+  border-radius: 16px;
+  transition: transform 0.2s ease;
+}
+
+.detail-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-2);
+}
+
+.detail-item strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.detail-item p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
