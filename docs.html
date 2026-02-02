@@ -67,13 +67,105 @@
       <div id="drawerBackdrop" class="drawer-backdrop"></div>
     </div>
 
-    <main class="content">
-      <div class="container" style="max-width: 800px; margin: 0 auto; padding-bottom: 80px;">
-        <h1 style="font-size: 48px; font-weight: 600; margin-bottom: 24px;">Documentation</h1>
-        <p style="font-size: 18px; color: var(--text-muted); line-height: 1.6;">
-          Welcome to the HobbyBoard documentation. Here you can find guides on how to install, configure, and use HobbyBoard.
-        </p>
-      </div>
+    <main class="content docs-layout">
+      <aside class="docs-sidebar">
+        <nav class="toc">
+          <h3>On this page</h3>
+          <ul>
+            <li><a href="#introduction" class="active">Introduction</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#usage">Usage Workflow</a></li>
+            <li><a href="#ai-setup">AI Models</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <article class="docs-body">
+        <section id="introduction">
+          <h1>Documentation</h1>
+          <p class="lead">Hobbyboard is a self-hosted visual archive designed for makers, designers, and digital hoarders. It combines the power of AI-assisted organization with the privacy of local storage.</p>
+          <hr>
+        </section>
+
+        <section id="installation">
+          <h2>Installation</h2>
+          <p>We offer three ways to install Hobbyboard: Docker (recommended), Pre-built Binaries, or building from Source.</p>
+          
+          <h3>Method 1: Docker Compose</h3>
+          <p>The easiest way to get started. Requires Docker Desktop or Docker Engine.</p>
+          <div class="code-block">
+            <div class="code-header">Terminal</div>
+            <pre><code>curl -O https://raw.githubusercontent.com/aravindhsampath/hobbyboard/main/docker-compose.yml
+docker compose up -d</code></pre>
+          </div>
+
+          <h3>Method 2: Binary</h3>
+          <p>Download the latest release for your platform from the <a href="#">GitHub Releases</a> page. You will also need to install <code>ffmpeg</code> and <code>libheif</code> dependencies manually.</p>
+          <div class="code-block">
+            <div class="code-header">Terminal</div>
+            <pre><code># macOS
+brew install ffmpeg libheif
+./hobbyboard serve</code></pre>
+          </div>
+        </section>
+
+        <section id="configuration">
+          <h2>Configuration</h2>
+          <p>Hobbyboard uses a <code>hobbyboard.toml</code> file for settings. When you first run the app, a default file is generated.</p>
+          
+          <h3>Key Settings</h3>
+          <ul class="params-list">
+            <li>
+              <code>raw_media_dir</code>
+              <p>Path to your source images. Read-only access is sufficient.</p>
+            </li>
+            <li>
+              <code>dist_dir</code>
+              <p>Where thumbnails and database files are stored.</p>
+            </li>
+            <li>
+              <code>ai_provider</code>
+              <p>Select between <code>ollama</code> (local), <code>openai</code>, or <code>gemini</code>.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section id="usage">
+          <h2>Usage Workflow</h2>
+          <p>Hobbyboard works in a cycle of <strong>Scan -> Process -> Explore</strong>.</p>
+          <ol>
+            <li><strong>Scan:</strong> Point the app to your folder. It identifies new files.</li>
+            <li><strong>Build:</strong> The AI vision model captions your images, while local models generate embeddings for search.</li>
+            <li><strong>Serve:</strong> The web interface allows you to browse, search, and curate.</li>
+          </ol>
+        </section>
+
+        <section id="ai-setup">
+          <h2>AI Models</h2>
+          <p>You can choose between local privacy and cloud accuracy.</p>
+          <div class="comparison-grid">
+            <div class="cmp-card">
+              <h4>Local (Ollama)</h4>
+              <p>Completely offline. Requires decent GPU/RAM. Slower but private.</p>
+            </div>
+            <div class="cmp-card">
+              <h4>Cloud (OpenAI/Gemini)</h4>
+              <p>Fast, high accuracy. Requires API key. Data is sent to provider for analysis only.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="troubleshooting">
+          <h2>Troubleshooting</h2>
+          <p>If something goes wrong, check the logs in the web interface or your container logs.</p>
+          <div class="code-block">
+            <div class="code-header">Terminal</div>
+            <pre><code>docker compose logs -f app</code></pre>
+          </div>
+        </section>
+      </article>
     </main>
 
     <footer class="footer">
