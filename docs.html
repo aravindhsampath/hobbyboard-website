@@ -67,105 +67,111 @@
       <div id="drawerBackdrop" class="drawer-backdrop"></div>
     </div>
 
-    <main class="content docs-layout">
-      <aside class="docs-sidebar">
-        <nav class="toc">
-          <h3>On this page</h3>
-          <ul>
-            <li><a href="#introduction" class="active">Introduction</a></li>
-            <li><a href="#installation">Installation</a></li>
-            <li><a href="#configuration">Configuration</a></li>
-            <li><a href="#usage">Usage Workflow</a></li>
-            <li><a href="#ai-setup">AI Models</a></li>
-            <li><a href="#troubleshooting">Troubleshooting</a></li>
-          </ul>
-        </nav>
-      </aside>
-
-      <article class="docs-body">
-        <section id="introduction">
-          <h1>Documentation</h1>
-          <p class="lead">Hobbyboard is a self-hosted visual archive designed for makers, designers, and digital hoarders. It combines the power of AI-assisted organization with the privacy of local storage.</p>
-          <hr>
-        </section>
-
-        <section id="installation">
-          <h2>Installation</h2>
-          <p>We offer three ways to install Hobbyboard: Docker (recommended), Pre-built Binaries, or building from Source.</p>
-          
-          <h3>Method 1: Docker Compose</h3>
-          <p>The easiest way to get started. Requires Docker Desktop or Docker Engine.</p>
-          <div class="code-block">
-            <div class="code-header">Terminal</div>
-            <pre><code>curl -O https://raw.githubusercontent.com/aravindhsampath/hobbyboard/main/docker-compose.yml
-docker compose up -d</code></pre>
+    <main class="content">
+      <div class="docs-grid">
+        <aside class="docs-sidebar">
+          <div class="sidebar-sticky">
+            <div class="sidebar-group">
+              <span class="sidebar-title">Getting Started</span>
+              <ul class="sidebar-links">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#quick-start">Quick Start</a></li>
+              </ul>
+            </div>
+            <div class="sidebar-group">
+              <span class="sidebar-title">Configuration</span>
+              <ul class="sidebar-links">
+                <li><a href="#settings">Settings (TOML)</a></li>
+                <li><a href="#ai-setup">AI Models</a></li>
+                <li><a href="#paths">File Paths</a></li>
+              </ul>
+            </div>
+            <div class="sidebar-group">
+              <span class="sidebar-title">Usage</span>
+              <ul class="sidebar-links">
+                <li><a href="#search">Search</a></li>
+                <li><a href="#boards">Boards &amp; Tags</a></li>
+                <li><a href="#maintenance">Maintenance</a></li>
+              </ul>
+            </div>
           </div>
+        </aside>
 
-          <h3>Method 2: Binary</h3>
-          <p>Download the latest release for your platform from the <a href="#">GitHub Releases</a> page. You will also need to install <code>ffmpeg</code> and <code>libheif</code> dependencies manually.</p>
-          <div class="code-block">
-            <div class="code-header">Terminal</div>
-            <pre><code># macOS
+        <article class="docs-content">
+          <section id="introduction">
+            <h1>Introduction</h1>
+            <p class="lead">Hobbyboard is a self-hosted visual archive designed for makers, designers, and digital hoarders. It combines the power of AI-assisted organization with the privacy of local storage.</p>
+            <div class="callout info">
+              <strong>Philosophy:</strong> Your data never leaves your machine. We believe in "Local First" software.
+            </div>
+          </section>
+
+          <hr class="docs-divider">
+
+          <section id="installation">
+            <h2>Installation</h2>
+            <p>We offer three ways to install Hobbyboard: Docker (recommended), Pre-built Binaries, or building from Source.</p>
+            
+            <h3>Method 1: Docker Compose</h3>
+            <p>The easiest way to get started. Requires Docker Desktop or Docker Engine.</p>
+            <div class="code-block">
+              <div class="code-header">docker-compose.yml</div>
+              <pre><code>services:
+  hobbyboard:
+    image: ghcr.io/aravindhsampath/hobbyboard:latest
+    ports:
+      - "9625:9625"
+    volumes:
+      - ./images:/app/raw_images
+      - ./data:/app/dist</code></pre>
+            </div>
+
+            <h3>Method 2: Binary</h3>
+            <p>Download the latest release for your platform from the <a href="#">GitHub Releases</a> page. You will also need to install <code>ffmpeg</code> and <code>libheif</code> dependencies manually.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code># macOS
 brew install ffmpeg libheif
-./hobbyboard serve</code></pre>
-          </div>
-        </section>
-
-        <section id="configuration">
-          <h2>Configuration</h2>
-          <p>Hobbyboard uses a <code>hobbyboard.toml</code> file for settings. When you first run the app, a default file is generated.</p>
-          
-          <h3>Key Settings</h3>
-          <ul class="params-list">
-            <li>
-              <code>raw_media_dir</code>
-              <p>Path to your source images. Read-only access is sufficient.</p>
-            </li>
-            <li>
-              <code>dist_dir</code>
-              <p>Where thumbnails and database files are stored.</p>
-            </li>
-            <li>
-              <code>ai_provider</code>
-              <p>Select between <code>ollama</code> (local), <code>openai</code>, or <code>gemini</code>.</p>
-            </li>
-          </ul>
-        </section>
-
-        <section id="usage">
-          <h2>Usage Workflow</h2>
-          <p>Hobbyboard works in a cycle of <strong>Scan -> Process -> Explore</strong>.</p>
-          <ol>
-            <li><strong>Scan:</strong> Point the app to your folder. It identifies new files.</li>
-            <li><strong>Build:</strong> The AI vision model captions your images, while local models generate embeddings for search.</li>
-            <li><strong>Serve:</strong> The web interface allows you to browse, search, and curate.</li>
-          </ol>
-        </section>
-
-        <section id="ai-setup">
-          <h2>AI Models</h2>
-          <p>You can choose between local privacy and cloud accuracy.</p>
-          <div class="comparison-grid">
-            <div class="cmp-card">
-              <h4>Local (Ollama)</h4>
-              <p>Completely offline. Requires decent GPU/RAM. Slower but private.</p>
+./hobbyboard</code></pre>
             </div>
-            <div class="cmp-card">
-              <h4>Cloud (OpenAI/Gemini)</h4>
-              <p>Fast, high accuracy. Requires API key. Data is sent to provider for analysis only.</p>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <section id="troubleshooting">
-          <h2>Troubleshooting</h2>
-          <p>If something goes wrong, check the logs in the web interface or your container logs.</p>
-          <div class="code-block">
-            <div class="code-header">Terminal</div>
-            <pre><code>docker compose logs -f app</code></pre>
-          </div>
-        </section>
-      </article>
+          <hr class="docs-divider">
+
+          <section id="settings">
+            <h2>Configuration</h2>
+            <p>Hobbyboard uses a <code>hobbyboard.toml</code> file for settings. When you first run the app, a default file is generated.</p>
+            
+            <table class="params-table">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>raw_media_dir</code></td>
+                  <td>Source directory for your images. Read-only access is sufficient.</td>
+                  <td><code>"./raw_images"</code></td>
+                </tr>
+                <tr>
+                  <td><code>dist_dir</code></td>
+                  <td>Where thumbnails and database files are stored.</td>
+                  <td><code>"./dist"</code></td>
+                </tr>
+                <tr>
+                  <td><code>ai_provider</code></td>
+                  <td>Vision provider (ollama, openai, gemini).</td>
+                  <td><code>"ollama"</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </article>
+      </div>
     </main>
 
     <footer class="footer">
