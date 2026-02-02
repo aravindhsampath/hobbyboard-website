@@ -15,6 +15,10 @@ const browserTabs = document.querySelectorAll('.browser-tab');
 const browserImages = document.querySelectorAll('.browser-img');
 const showcaseSection = document.querySelector('.browser-showcase');
 
+// OS Switcher Elements
+const osButtons = document.querySelectorAll('.os-btn');
+const installContents = document.querySelectorAll('.install-content');
+
 let autoPlayInterval;
 let isPaused = false;
 
@@ -23,6 +27,7 @@ let isPaused = false;
 function init() {
   loadSettings();
   initListeners();
+  detectOS();
 }
 
 function loadSettings() {
@@ -93,6 +98,42 @@ function stopAutoPlay() {
   autoPlayInterval = null;
 }
 
+// --- Install Logic ---
+
+function detectOS() {
+  const platform = navigator.platform.toLowerCase();
+  const userAgent = navigator.userAgent.toLowerCase();
+  let os = 'linux'; // Default
+
+  if (platform.includes('mac') || userAgent.includes('mac')) {
+    os = 'mac';
+  } else if (platform.includes('win') || userAgent.includes('win')) {
+    os = 'windows';
+  }
+  
+  switchOS(os);
+}
+
+function switchOS(os) {
+  // Update Buttons
+  osButtons.forEach(btn => {
+    if (btn.getAttribute('data-os') === os) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Update Content
+  installContents.forEach(content => {
+    if (content.id === `install-${os}`) {
+      content.classList.remove('hidden');
+    } else {
+      content.classList.add('hidden');
+    }
+  });
+}
+
 // --- Listeners ---
 
 function initListeners() {
@@ -109,14 +150,12 @@ function initListeners() {
   // Browser Tabs Manual Click
   browserTabs.forEach(tab => {
     tab.onclick = (e) => {
-      // If user manually clicks, we reset the loop effectively
-      // We don't stop it permanently, just let it continue from the new point
       activateTab(e.target);
-      startAutoPlay(); // Restart timer to give full 4s on the new tab
+      startAutoPlay();
     };
   });
 
-  // Intersection Observer for Efficiency
+  // Intersection Observer for Showcase
   if (showcaseSection && 'IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -126,17 +165,34 @@ function initListeners() {
           stopAutoPlay();
         }
       });
-    }, { threshold: 0.4 }); // Wait until 40% visible
+    }, { threshold: 0.4 });
     
     observer.observe(showcaseSection);
     
-    // Pause on Hover behavior
     showcaseSection.addEventListener('mouseenter', () => isPaused = true);
     showcaseSection.addEventListener('mouseleave', () => isPaused = false);
   } else {
-    // Fallback if no observer support (rare)
     startAutoPlay();
   }
+
+  // OS Switcher Manual Click
+  osButtons.forEach(btn => {
+    btn.onclick = () => switchOS(btn.getAttribute('data-os'));
+  });
+  
+  // Copy Buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.onclick = () => {
+      const codeBlock = btn.parentElement.querySelector('code');
+      if (codeBlock) {
+        navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+          const original = btn.innerHTML;
+          btn.innerHTML = '<span style="font-size:12px; color:#fff;">Copied!</span>';
+          setTimeout(() => btn.innerHTML = original, 2000);
+        });
+      }
+    };
+  });
 }
 
 init();
