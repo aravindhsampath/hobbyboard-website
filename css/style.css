@@ -1408,7 +1408,7 @@ button, input, select, textarea {
 }
 
 .vibe-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Lora', serif;
   font-style: italic;
   font-size: 24px;
   margin: 0 0 16px;
@@ -1444,6 +1444,7 @@ button, input, select, textarea {
 }
 
 .question {
+  font-family: 'Lora', serif;
   font-size: 28px; /* Big headers */
   margin: 0 0 16px;
   color: var(--text);
