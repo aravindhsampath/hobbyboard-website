@@ -1,0 +1,21 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Temporary
+tmp/
+temp/
