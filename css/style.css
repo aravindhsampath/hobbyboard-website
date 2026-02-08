@@ -48,8 +48,8 @@
   --bg-surface-hover: #2A2A29;
   --bg-surface-2: #232321; /* Added from source */
   
-  --txt-primary: #e5e5e5;
-  --txt-secondary: #888888;
+  --txt-primary: #f0f0f0;
+  --txt-secondary: #a3a3a3;
   --txt-tertiary: #52525b;
   
   --accent: #6366f1; /* Indigo (kept for other elements) */
@@ -95,26 +95,26 @@
 
 [data-theme="light"] {
   /* Warm Stone */
-  --bg-app: #EAE9E6;
+  --bg-app: #E8E6E2;
   --bg-surface: #FFFFFF;
-  --bg-surface-hover: #F7F6F4;
-  --bg-surface-2: #F0EFEA; /* Adapted light surface */
+  --bg-surface-hover: #F8F7F4;
+  --bg-surface-2: #F1EFEA; /* Adapted light surface */
   
-  --txt-primary: #111111;
-  --txt-secondary: #4A4A45;
+  --txt-primary: #121212;
+  --txt-secondary: #3F3F3B;
   --txt-tertiary: #71717a;
   
-  --accent-cursive: #C2410C; /* Burnt Orange for Light Mode */
+  --accent-cursive: #B45309; /* Burnt Orange for Light Mode */
   
   /* Container Variables (Light Mode) */
-  --container-bg: rgba(255, 255, 255, 0.2); /* Much subtler blend */
+  --container-bg: rgba(255, 255, 255, 0.24); /* Subtle lift */
   --container-border: transparent; /* Remove hard line */
   
   /* Background Gradients (Light - Adapted) */
-  --bg-gradient-1: rgba(111,179,145,0.08); /* Greenish - subtler */
-  --bg-gradient-2: rgba(211,154,71,0.08);  /* Goldish - subtler */
+  --bg-gradient-1: rgba(111,179,145,0.10); /* Greenish - subtle */
+  --bg-gradient-2: rgba(211,154,71,0.10);  /* Goldish - subtle */
   
-  --border: #DCDbd8;
+  --border: #D6D4CF;
   --border-light: #d4d4d8;
 
   --btn-bg: #FFFFFF;
@@ -369,8 +369,39 @@ button, input, select, textarea {
 
 .hero-actions {
   display: flex;
-  gap: 16px;
-  align-items: center;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.hero-cta {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.hero-cta-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  position: relative;
+  padding-left: 14px;
+}
+
+.hero-cta-sub::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 8px;
+  height: 1px;
+  background: var(--text-muted);
+  opacity: 0.8;
+}
+
+.hero-actions .btn-secondary {
+  align-self: flex-start;
 }
 
 /* Base Button Style */
@@ -396,12 +427,24 @@ button, input, select, textarea {
   background: var(--btn-primary-bg);
   border-color: var(--btn-primary-border);
   color: var(--btn-primary-text, var(--text)); /* Use text var with fallback */
-  box-shadow: var(--btn-primary-shadow, none); /* Add shadow var */
+  box-shadow: var(--btn-primary-shadow, 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0));
+  position: relative;
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
   border-color: var(--btn-primary-border-hover);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 1px solid rgba(211, 154, 71, 0.55);
+  box-shadow: 0 0 0 2px rgba(211, 154, 71, 0.12), 0 8px 24px rgba(111, 179, 145, 0.18);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 /* Secondary Button Style */
@@ -415,6 +458,7 @@ button, input, select, textarea {
   padding: 10px 24px;
   font-size: 14px;
   text-align: center;
+  min-height: 44px;
 }
 
 .btn-icon {
