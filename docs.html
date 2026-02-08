@@ -88,6 +88,8 @@
             <div class="sidebar-group">
               <span class="sidebar-title">Deep Dive</span>
               <ul class="sidebar-links">
+                <li><a href="#technical-design">Technical Design</a></li>
+                <li><a href="#cli-reference">CLI Reference</a></li>
                 <li><a href="#usage">Usage &amp; Workflow</a></li>
                 <li><a href="#internals">How it Works</a></li>
               </ul>
@@ -129,7 +131,8 @@
                 <h4>Option 1: Homebrew (Recommended)</h4>
                 <div class="code-block">
                   <div class="code-header">Terminal</div>
-                  <pre><code>brew install hobbyboard
+                  <pre><code>brew tap aravindhsampath/tap
+brew install hobbyboard
 hobbyboard
 # Open http://localhost:9625</code></pre>
                   <button class="copy-btn" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
@@ -178,36 +181,52 @@ docker compose up -d
 
           <section id="installation">
             <h2>Installation Options</h2>
-            <p>Hobbyboard offers flexibility for every type of user. Below is a comprehensive guide to all supported installation methods.</p>
-            
-            <h3>1. Docker Compose (Recommended)</h3>
-            <p>Best for long-term deployments. Manages the container lifecycle and restarts automatically.</p>
-            <div class="code-block">
-              <div class="code-header">docker-compose.yml</div>
-              <pre><code>services:
-  hobbyboard:
-    image: ghcr.io/aravindhsampath/hobbyboard:latest
-    container_name: hobbyboard
-    restart: unless-stopped
-    ports:
-      - "9625:9625"
-    volumes:
-      - ./images:/app/raw_images  # Your source images
-      - ./data:/app/dist          # Thumbnails & DB</code></pre>
+            <p>Hobbyboard offers flexibility for every type of user. Other installation options are listed below.</p>
+            <div class="callout info">
+              <strong>Recommendation:</strong> Use your OS package manager when available. It is the easiest way to receive updates automatically.
             </div>
-
-            <h3>2. Docker Image Direct</h3>
-            <p>Useful for quick testing without creating a compose file.</p>
+            
+            <h3>1. Package Managers (Recommended)</h3>
+            <p>Use your OS package manager (brew, yum, apt, pacman). Example with Homebrew:</p>
             <div class="code-block">
               <div class="code-header">Terminal</div>
-              <pre><code>docker run -d \
-  -p 9625:9625 \
-  -v $(pwd)/images:/app/raw_images \
-  -v $(pwd)/data:/app/dist \
-  ghcr.io/aravindhsampath/hobbyboard:latest</code></pre>
+              <pre><code>brew tap aravindhsampath/tap
+brew install hobbyboard</code></pre>
             </div>
 
-            <h3>3. Pre-built Binaries</h3>
+            <h3>2. Docker Compose (Dependencies Pre-installed)</h3>
+            <p>Easiest container setup with Qdrant bundled via compose.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>curl -O https://raw.githubusercontent.com/aravindhsampath/hobbyboard/main/docker-compose.yml
+docker compose up qdrant -d
+docker compose up -d
+# Open http://localhost:9625</code></pre>
+            </div>
+
+            <h3>3. Docker Image Direct</h3>
+            <p>Run the official image without compose. Start Qdrant first, then Hobbyboard:</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>docker run -d --name hobbyboard-qdrant \
+  --restart unless-stopped \
+  -p 6333:6333 -p 6334:6334 \
+  -v $(pwd)/qdrant_storage:/qdrant/storage:z \
+  qdrant/qdrant:latest
+
+docker run -d --name hobbyboard-app \
+  --restart unless-stopped \
+  --add-host=host.docker.internal:host-gateway \
+  -p 9625:9625 \
+  -v $(pwd):/app \
+  -v /app/frontend \
+  -v $(pwd)/raw_images:/app/raw_images \
+  -v $(pwd)/dist:/app/dist \
+  ghcr.io/aravindhsampath/hobbyboard:latest
+# Open http://localhost:9625</code></pre>
+            </div>
+
+            <h3>4. Pre-built Binaries</h3>
             <p>Download the latest release for your OS. <strong>Note:</strong> Requires <code>ffmpeg</code> and <code>libheif</code> to be installed on your system.</p>
             <table class="params-table">
               <thead>
@@ -232,7 +251,7 @@ docker compose up -d
               </tbody>
             </table>
 
-            <h3>4. Build from Source (Cargo)</h3>
+            <h3>5. Build from Source (Cargo)</h3>
             <p>For developers who want the latest changes. Requires Rust toolchain.</p>
             <div class="code-block">
               <div class="code-header">Terminal</div>
@@ -248,105 +267,242 @@ cargo build --release
           <section id="configuration">
             <h2>Configuration</h2>
             <p>Hobbyboard is configured via a <code>hobbyboard.toml</code> file. On first launch, a default file is created in your working directory.</p>
+            <p>Most knobs you want to turn live here. Customize away.</p>
             
-            <h3>Server Settings</h3>
+            <h3>Configuration Reference</h3>
             <table class="params-table">
               <thead>
                 <tr>
-                  <th>Key</th>
-                  <th>Description</th>
+                  <th>Section</th>
+                  <th>Setting</th>
+                  <th>What it does</th>
                   <th>Default</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><code>host</code></td>
-                  <td>Interface to bind to. Use <code>0.0.0.0</code> for Docker.</td>
-                  <td><code>"127.0.0.1"</code></td>
-                </tr>
-                <tr>
-                  <td><code>port</code></td>
-                  <td>Port to listen on.</td>
-                  <td><code>9625</code></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <h3>Paths</h3>
-            <table class="params-table">
-              <tbody>
-                <tr>
+                  <td><strong>[paths]</strong></td>
                   <td><code>raw_media_dir</code></td>
-                  <td>Directory containing your source images (Read-Only).</td>
-                  <td><code>"./raw_images"</code></td>
+                  <td>Your image hoard location. Read-only (we promise).</td>
+                  <td><code>"raw_images"</code></td>
                 </tr>
                 <tr>
+                  <td></td>
                   <td><code>dist_dir</code></td>
-                  <td>Directory for thumbnails, database, and search index.</td>
-                  <td><code>"./dist"</code></td>
+                  <td>Where we dump thumbnails, DBs, and metadata.</td>
+                  <td><code>"dist"</code></td>
                 </tr>
-              </tbody>
-            </table>
-
-            <h3>AI &amp; Vision</h3>
-            <table class="params-table">
-              <tbody>
                 <tr>
-                  <td><code>ai_provider</code></td>
-                  <td>Choice of <code>ollama</code>, <code>openai</code>, or <code>gemini</code>.</td>
+                  <td><strong>[ai]</strong></td>
+                  <td><code>provider</code></td>
+                  <td><code>ollama</code> (free/slow), <code>openai</code>, or <code>gemini</code>.</td>
                   <td><code>"ollama"</code></td>
                 </tr>
                 <tr>
+                  <td></td>
                   <td><code>vision_model</code></td>
-                  <td>Model used for captioning (e.g., <code>llava</code> for ollama).</td>
-                  <td><code>"llava"</code></td>
+                  <td>The eyes. e.g., <code>qwen3-vl:8b</code>, <code>gemini-3-flash-preview</code>, <code>gpt-5-mini</code>.</td>
+                  <td><code>"qwen3-vl:8b"</code></td>
                 </tr>
                 <tr>
+                  <td></td>
                   <td><code>embedding_model</code></td>
-                  <td>Local model for vector search.</td>
-                  <td><code>"all-MiniLM-L6-v2"</code></td>
+                  <td>Text-to-vector model loaded in-memory by Hobbyboard.</td>
+                  <td><code>"mxbai-embed-large-v1"</code></td>
+                </tr>
+                <tr>
+                  <td><strong>[server]</strong></td>
+                  <td><code>host</code></td>
+                  <td><code>0.0.0.0</code> to expose to your LAN.</td>
+                  <td><code>"0.0.0.0"</code></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><code>port</code></td>
+                  <td>Why 9625? I mashed the numpad.</td>
+                  <td><code>9625</code></td>
+                </tr>
+                <tr>
+                  <td><strong>[search]</strong></td>
+                  <td><code>vector_weight</code></td>
+                  <td>0.0–1.0. Higher = more concept/vibe matching.</td>
+                  <td><code>0.7</code></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><code>fts_weight</code></td>
+                  <td>0.0–1.0. Higher = exact keyword matching.</td>
+                  <td><code>0.3</code></td>
+                </tr>
+                <tr>
+                  <td><strong>[search.fts_weights]</strong></td>
+                  <td><code>manual_tags</code></td>
+                  <td>Multiplier. If you typed it, it matters more.</td>
+                  <td><code>2.0</code></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><code>user_notes</code></td>
+                  <td>Multiplier. Your notes matter too.</td>
+                  <td><code>2.0</code></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><code>caption</code></td>
+                  <td>Multiplier. AI description weight.</td>
+                  <td><code>1.0</code></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><code>auto_tags</code></td>
+                  <td>Multiplier. AI tags weight.</td>
+                  <td><code>1.0</code></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><code>ocr</code></td>
+                  <td>Multiplier. Text found inside images.</td>
+                  <td><code>0.8</code></td>
                 </tr>
               </tbody>
             </table>
 
-            <h3>Rationale: AI Performance</h3>
-            <p>Choosing the right model depends on your hardware.</p>
+            <h3>Notes on AI Configuration</h3>
+            <p>Vision models are configured via <code>[ai].vision_model</code>. You can customize <code>[ai].prompt_analysis</code> for domain-specific indexing.</p>
             <table class="params-table">
               <thead>
                 <tr>
-                  <th>Model</th>
-                  <th>Type</th>
-                  <th>RAM Usage</th>
-                  <th>Latency per Image</th>
+                  <th>Provider</th>
+                  <th>Recommended Model</th>
+                  <th>Use Case</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>all-MiniLM-L6-v2</td>
-                  <td>Embedding</td>
-                  <td>~80MB</td>
-                  <td>&lt; 50ms</td>
+                  <td><strong>Ollama</strong></td>
+                  <td><code>qwen3-vl:8b</code></td>
+                  <td>Slow but local performance and privacy.</td>
                 </tr>
                 <tr>
-                  <td>clip-vit-b-32</td>
-                  <td>Embedding</td>
-                  <td>~600MB</td>
-                  <td>~200ms</td>
+                  <td><strong>OpenAI</strong></td>
+                  <td><code>gpt-5-mini</code></td>
+                  <td>High accuracy, low cost, requires API key.</td>
                 </tr>
                 <tr>
-                  <td>Llava (Ollama)</td>
-                  <td>Vision</td>
-                  <td>~4GB (VRAM)</td>
-                  <td>2-5s</td>
-                </tr>
-                <tr>
-                  <td>GPT-4o (OpenAI)</td>
-                  <td>Vision</td>
-                  <td>N/A</td>
-                  <td>~1.5s</td>
+                  <td><strong>Gemini</strong></td>
+                  <td><code>gemini-3-flash-preview</code></td>
+                  <td>Excellent OCR and fast processing.</td>
                 </tr>
               </tbody>
             </table>
+
+            <p>Embedding models run locally via <code>fastembed-rs</code> and are set via <code>[ai].embedding_model</code>.</p>
+            <table class="params-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Dimensions</th>
+                  <th>Size</th>
+                  <th>Latency (Apple Silicon M2)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>nomic-embed-text-v1.5</strong></td>
+                  <td>768</td>
+                  <td>~275 MB</td>
+                  <td>14 ms</td>
+                </tr>
+                <tr>
+                  <td><strong>mxbai-embed-large-v1</strong></td>
+                  <td>1024</td>
+                  <td>~670 MB</td>
+                  <td>34 ms</td>
+                </tr>
+                <tr>
+                  <td><strong>Alibaba-NLP/gte-large-en-v1.5</strong></td>
+                  <td>1024</td>
+                  <td>~1.6 GB</td>
+                  <td>42 ms</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <hr class="docs-divider">
+
+          <section id="technical-design">
+            <h2>Technical Design</h2>
+            <p>This section explains the end-to-end architecture and the image lifecycle. It is written for engineers who care about self-hosting, privacy, and how the pipeline is actually wired.</p>
+
+            <h3>System Orientation</h3>
+            <ul>
+              <li><strong>Binary entrypoint:</strong> <code>src/main.rs</code> (CLI commands: setup, init, build, serve, export).</li>
+              <li><strong>Auto-dispatch:</strong> On start, HobbyBoard decides whether to serve, run onboarding, or initialize based on config and DB presence.</li>
+              <li><strong>Core modules:</strong> config/logging, media ingestion, AI, DB, ops pipeline, server/API, and the embedded UI.</li>
+            </ul>
+
+            <h3>User Action Flow (first run)</h3>
+            <ol>
+              <li>Run <code>hobbyboard</code> → onboarding server starts.</li>
+              <li>Diagnostics check dependencies (ffmpeg, libheif, Qdrant).</li>
+              <li>Configure AI provider, media path, and embedding model.</li>
+              <li>Write <code>hobbyboard.toml</code> + <code>.env</code>, then init + build.</li>
+              <li>Server restarts into normal serve mode.</li>
+            </ol>
+            <div class="callout info">
+              <strong>Artifacts created:</strong> <code>hobbyboard.toml</code>, <code>.env</code>, <code>dist/</code>, SQLite DB, Qdrant collection.
+            </div>
+
+            <h3>Image Lifecycle</h3>
+            <ul>
+              <li><strong>Scan:</strong> Walk the media directory, hash files, and upsert into <code>items</code>.</li>
+              <li><strong>Process:</strong> Create variants, transcode video, generate thumbnails, and write to <code>dist/</code>.</li>
+              <li><strong>AI + Embedding:</strong> Run vision analysis, extract tags/OCR, embed text, and upsert vectors in Qdrant.</li>
+              <li><strong>Catalog:</strong> Regenerate <code>dist/data/catalog.json</code> used by the UI for fast listing.</li>
+            </ul>
+
+            <h3>Search &amp; Retrieval</h3>
+            <ul>
+              <li><strong>Semantic search:</strong> Query text is embedded locally and searched in Qdrant.</li>
+              <li><strong>Text search:</strong> SQLite FTS5 (bm25) searches OCR, captions, and notes.</li>
+              <li><strong>Fusion:</strong> Vector and FTS scores are normalized and merged using config weights.</li>
+            </ul>
+
+            <h3>Data Model (SQLite)</h3>
+            <ul>
+              <li><strong>items</strong>: file registry, paths, variants, dimensions.</li>
+              <li><strong>generated_metadata</strong>: AI output (title, caption, tags, OCR).</li>
+              <li><strong>user_tags</strong>, <strong>user_notes</strong>: manual inputs (preserved on refresh).</li>
+              <li><strong>boards</strong>, <strong>board_items</strong>: collections.</li>
+              <li><strong>media_search_fts</strong>: FTS index.</li>
+              <li><strong>system_info</strong>: embedding model and dimension integrity.</li>
+            </ul>
+
+            <h3>Operational Invariants</h3>
+            <ul>
+              <li><strong>Embedding model integrity:</strong> serve refuses to start if model differs from DB.</li>
+              <li><strong>Content hash identity:</strong> same file content = same ID (dedupe by hash).</li>
+              <li><strong>Catalog is authoritative:</strong> UI list is driven by <code>catalog.json</code>.</li>
+            </ul>
+
+            <h3>Failure Modes (and what happens)</h3>
+            <ul>
+              <li><strong>Missing ffmpeg/libheif:</strong> video transcode or HEIC/AVIF decode is skipped; build continues with warnings.</li>
+              <li><strong>AI provider errors:</strong> metadata extraction fails and item is rolled back.</li>
+              <li><strong>Qdrant down:</strong> semantic search degrades or fails; SQLite search still works.</li>
+              <li><strong>Refresh build:</strong> generated metadata is reset; manual tags remain (may be orphaned without FK).</li>
+            </ul>
+
+            <h3>Code Entry Points</h3>
+            <ul>
+              <li><code>src/main.rs</code> — CLI dispatch + auto-start.</li>
+              <li><code>src/ops/library.rs</code> — scan/process/AI pipeline.</li>
+              <li><code>src/media/*</code> — image/video processing.</li>
+              <li><code>src/ai/client.rs</code> — AI API + schema handling.</li>
+              <li><code>src/server/handlers.rs</code> — HTTP endpoints.</li>
+              <li><code>frontend/app.js</code> — UI interactions.</li>
+            </ul>
           </section>
 
           <hr class="docs-divider">
@@ -367,29 +523,102 @@ cargo build --release
               <li><strong>Vector Search:</strong> The descriptions and OCR text are converted into vectors using a local embedding model and stored in <strong>Qdrant</strong> (embedded). This allows for "vibe-based" semantic search.</li>
             </ul>
 
-            <h3>Common Commands</h3>
-            <table class="params-table">
-              <thead>
-                <tr>
-                  <th>Command</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>scan</code></td>
-                  <td>Quickly check for new files and add them to the queue.</td>
-                </tr>
-                <tr>
-                  <td><code>rebuild</code></td>
-                  <td>Wipes the database and re-processes all images from scratch.</td>
-                </tr>
-                <tr>
-                  <td><code>serve</code></td>
-                  <td>Starts the web server and background workers.</td>
-                </tr>
-              </tbody>
-            </table>
+            <h3 id="cli-reference">HobbyBoard CLI Reference</h3>
+            <p>HobbyBoard is designed as a single-binary orchestrator. The CLI handles everything from system diagnostics to AI-heavy ingestion and high-performance serving.</p>
+
+            <h4>Core Workflow</h4>
+            <p>The standard lifecycle for a HobbyBoard library follows this sequence:</p>
+            <div class="callout info">
+              <strong>setup</strong> (Diagnostics) &rarr; <strong>init</strong> (Infrastructure) &rarr; <strong>build</strong> (Ingestion) &rarr; <strong>serve</strong> (Operation)
+            </div>
+
+            <hr class="docs-divider">
+
+            <h4>1. System Diagnostics (setup)</h4>
+            <p>Before initializing a library, use the setup command to verify native dependencies. HobbyBoard relies on ffmpeg for video processing and libheif for Apple/AVIF image support.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>hobbyboard setup</code></pre>
+            </div>
+            <ul>
+              <li><strong>What it checks:</strong> Binary presence of ffmpeg, heif-info/heif-enc, and connectivity to the Qdrant gRPC/HTTP endpoints.</li>
+              <li><strong>Setup Wizard:</strong> If run without a configuration file, HobbyBoard defaults to an interactive Web UI on port 9625 to help generate the initial <code>hobbyboard.toml</code>.</li>
+            </ul>
+
+            <hr class="docs-divider">
+
+            <h4>2. Library Initialization (init)</h4>
+            <p>Prepares the storage layer for a new library.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>hobbyboard init</code></pre>
+            </div>
+            <ul>
+              <li><strong>SQLite:</strong> Creates <code>hobbyboard_data.db</code> and applies migrations (FTS5 tables, metadata schema).</li>
+              <li><strong>Qdrant:</strong> Creates the collection and defines the vector distance metric (Cosine) and dimension size based on the selected embedding model.</li>
+              <li><strong>Idempotency:</strong> Safe to run multiple times; it will not overwrite existing data unless the database file is manually removed.</li>
+            </ul>
+
+            <hr class="docs-divider">
+
+            <h4>3. Ingestion &amp; Indexing (build)</h4>
+            <p>The build phase is a multi-stage pipeline that is CPU and network bound.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>hobbyboard build [FLAGS]</code></pre>
+            </div>
+
+            <p><strong>Key Flags</strong></p>
+            <ul>
+              <li><code>--refresh</code>: Wipes all AI-generated metadata (descriptions, tags, embeddings) but preserves user data (manual tags, boards, notes). Useful when changing the AI system prompt or provider.</li>
+              <li><code>--deep</code>: Forces a full SHA-256 re-hash of every file in the <code>raw_images</code> directory to detect bit-rot or content changes that haven't triggered a filesystem timestamp update.</li>
+            </ul>
+
+            <p><strong>Pipeline Stages</strong></p>
+            <ol>
+              <li><strong>Scanner:</strong> Walks the directory, identifies supported MIME types, and computes 64-bit unique IDs.</li>
+              <li><strong>Processor:</strong> Generates optimized AVIF/JPEG thumbnails and 4-second video previews. Applies EXIF orientation.</li>
+              <li><strong>Vision AI:</strong> Sends media to the configured provider (Ollama, OpenAI, Gemini) for structural analysis.</li>
+              <li><strong>Embedder:</strong> Generates 1024D (default) vectors from descriptions using fastembed-rs.</li>
+            </ol>
+
+            <hr class="docs-divider">
+
+            <h4>4. Operational Mode (serve)</h4>
+            <p>Starts the Axum-based web server and REST API.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>hobbyboard serve</code></pre>
+            </div>
+            <ul>
+              <li><strong>Default Port:</strong> 9625</li>
+              <li><strong>Routes:</strong> Serves the Vanilla JS frontend from the binary (via rust-embed) or a local directory if <code>ui_path</code> is set.</li>
+              <li><strong>Search:</strong> Handles hybrid queries (Semantic + FTS5) with configurable weights.</li>
+              <li><strong>Auth:</strong> In the current version, access control is handled at the network/proxy layer.</li>
+            </ul>
+
+            <hr class="docs-divider">
+
+            <h4>5. Maintenance &amp; Reset (cleanup.sh)</h4>
+            <p>For developers or users needing a hard reset, a <code>cleanup.sh</code> utility is provided in the root of the repository.</p>
+            <div class="code-block">
+              <div class="code-header">Terminal</div>
+              <pre><code>./cleanup.sh</code></pre>
+            </div>
+            <ul>
+              <li><strong>Destructive:</strong> Removes the SQLite database, wipes the local Qdrant storage directory, and clears all generated thumbnails in <code>dist/</code>.</li>
+              <li><strong>Usage:</strong> Best used when switching between local development and Docker environments to ensure no stale volume data persists.</li>
+            </ul>
+
+            <hr class="docs-divider">
+
+            <h4>Configuration (hobbyboard.toml)</h4>
+            <p>While most settings are in the TOML, the CLI respects the following environment variables (usually stored in <code>.env</code>):</p>
+            <ul>
+              <li><code>OPENAI_API_KEY</code>: Required for OpenAI Vision.</li>
+              <li><code>GEMINI_API_KEY</code>: Required for Google Gemini.</li>
+              <li><code>RUST_LOG</code>: Controls verbosity (<code>error</code>, <code>warn</code>, <code>info</code>, <code>debug</code>, <code>trace</code>).</li>
+            </ul>
 
             <h3>Logs</h3>
             <p>Logs are printed to stdout by default. In Docker, view them with:</p>
@@ -408,6 +637,7 @@ cargo build --release
               <li><strong>Qdrant:</strong> High-performance vector similarity search.</li>
               <li><strong>FileSystem:</strong> Thumbnail cache in <code>dist/images</code>.</li>
             </ul>
+            <p><em>Mermaid diagram — TBD.</em></p>
           </section>
         </article>
       </div>
