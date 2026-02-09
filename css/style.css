@@ -922,6 +922,26 @@ button, input, select, textarea {
   border-radius: 99px;
   padding: 4px;
   gap: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.os-switcher::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+@media (max-width: 480px) {
+  .os-switcher {
+    border-radius: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .os-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
 }
 
 .os-btn {
